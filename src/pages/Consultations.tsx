@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ClipboardCheck, Target, PlayCircle, Heart, ArrowRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 
 const consultationSteps = [
@@ -44,8 +46,21 @@ const consultationSteps = [
 ];
 
 const Consultations = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <main className="pt-24">
         {/* Hero */}
@@ -57,16 +72,31 @@ const Consultations = () => {
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+              >
                 Private Consultations
-              </span>
-              <h1 className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6">
+              </motion.span>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6"
+              >
                 Your Personal <span className="italic text-primary">Journey</span>
-              </h1>
-              <p className="text-xl text-muted-foreground">
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl text-muted-foreground"
+              >
                 Experience personalized wellness guidance with our expert practitioners.
                 A holistic approach tailored entirely to your unique needs.
-              </p>
+              </motion.p>
             </motion.div>
           </div>
         </section>
@@ -89,28 +119,35 @@ const Consultations = () => {
               </p>
             </motion.div>
 
-            <div className="space-y-8 max-w-4xl mx-auto">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="space-y-8 max-w-4xl mx-auto"
+            >
               {consultationSteps.map((step, index) => (
                 <motion.div
                   key={step.step}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  variants={itemVariants}
+                  whileHover={{ x: 10 }}
                   className="relative"
                 >
-                  <div className="flex flex-col md:flex-row gap-6 p-8 bg-card rounded-2xl shadow-soft">
+                  <div className="flex flex-col md:flex-row gap-6 p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all">
                     {/* Step indicator */}
                     <div className="flex-shrink-0">
-                      <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                      <motion.div
+                        whileHover={{ rotate: 10, scale: 1.1 }}
+                        className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center"
+                      >
                         <step.icon className="w-8 h-8 text-primary" />
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Content */}
                     <div className="flex-grow">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="px-3 py-1 rounded-full bg-secondary/20 text-secondary text-xs font-medium">
+                        <span className="px-3 py-1 rounded-full bg-secondary/20 text-secondary-foreground text-xs font-medium">
                           Step {step.step}
                         </span>
                         <span className="text-sm text-muted-foreground">
@@ -124,12 +161,17 @@ const Consultations = () => {
 
                       <div className="flex flex-wrap gap-2">
                         {step.includes.map((item, i) => (
-                          <span
+                          <motion.span
                             key={i}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1 }}
+                            whileHover={{ scale: 1.05 }}
                             className="px-3 py-1 rounded-full bg-muted text-muted-foreground text-sm"
                           >
                             {item}
-                          </span>
+                          </motion.span>
                         ))}
                       </div>
                     </div>
@@ -137,11 +179,17 @@ const Consultations = () => {
 
                   {/* Connector line */}
                   {index < consultationSteps.length - 1 && (
-                    <div className="hidden md:block absolute left-12 top-full w-0.5 h-8 bg-border" />
+                    <motion.div
+                      initial={{ scaleY: 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 }}
+                      className="hidden md:block absolute left-12 top-full w-0.5 h-8 bg-border origin-top"
+                    />
                   )}
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -161,15 +209,24 @@ const Consultations = () => {
                 Schedule your complimentary initial consultation and take the first step
                 towards a healthier, more balanced you.
               </p>
-              <Button size="lg" className="group">
-                Book Your Free Consultation
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  size="lg"
+                  className="group"
+                  onClick={() => {
+                    window.location.href = 'mailto:hello@serenity.com?subject=Free Consultation Request';
+                  }}
+                >
+                  Book Your Free Consultation
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </motion.div>
             </motion.div>
           </div>
         </section>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
