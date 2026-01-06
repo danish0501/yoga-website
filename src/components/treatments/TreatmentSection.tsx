@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Check, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import therapyImage from '@/assets/therapy-room.jpg';
@@ -63,6 +64,19 @@ const treatments = [
 ];
 
 const TreatmentSection = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
     <section className="py-24">
       <div className="container mx-auto px-4 lg:px-8">
@@ -74,9 +88,14 @@ const TreatmentSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+          >
             Therapeutic Programs
-          </span>
+          </motion.span>
           <h2 className="font-heading text-4xl md:text-5xl font-semibold text-foreground mb-4">
             Medical-Grade Yoga{' '}
             <span className="italic text-primary">Therapy</span>
@@ -96,13 +115,21 @@ const TreatmentSection = () => {
           transition={{ duration: 0.6 }}
           className="relative rounded-2xl overflow-hidden mb-16 shadow-elevated"
         >
-          <img
-            src={therapyImage}
-            alt="Therapy room"
-            className="w-full h-64 md:h-96 object-cover"
-          />
+          <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
+            <img
+              src={therapyImage}
+              alt="Therapy room"
+              className="w-full h-64 md:h-96 object-cover"
+            />
+          </motion.div>
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-          <div className="absolute bottom-8 left-8 right-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="absolute bottom-8 left-8 right-8"
+          >
             <h3 className="font-heading text-2xl md:text-3xl font-semibold text-background mb-2">
               Evidence-Based Healing
             </h3>
@@ -110,23 +137,30 @@ const TreatmentSection = () => {
               Our treatment protocols are backed by clinical research and tailored
               to each individual's health profile.
             </p>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Treatment Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {treatments.map((treatment, index) => (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        >
+          {treatments.map((treatment) => (
             <motion.div
               key={treatment.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-shadow"
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.01 }}
+              className="p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all"
             >
-              <span className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium mb-4">
+              <motion.span
+                whileHover={{ scale: 1.05 }}
+                className="inline-block px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium mb-4"
+              >
                 {treatment.subtitle}
-              </span>
+              </motion.span>
               <h3 className="font-heading text-2xl font-semibold text-foreground mb-3">
                 {treatment.title}
               </h3>
@@ -136,38 +170,62 @@ const TreatmentSection = () => {
 
               <ul className="space-y-3 mb-6">
                 {treatment.benefits.map((benefit, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 10 }}
+                      className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5"
+                    >
                       <Check className="w-3 h-3 text-primary" />
-                    </div>
+                    </motion.div>
                     <span className="text-sm text-foreground">{benefit}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
 
               <div className="flex items-center justify-between pt-6 border-t border-border">
                 <div className="flex gap-6">
                   <div>
-                    <div className="text-2xl font-heading font-semibold text-foreground">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      className="text-2xl font-heading font-semibold text-foreground"
+                    >
                       {treatment.stats.sessions}
-                    </div>
+                    </motion.div>
                     <div className="text-xs text-muted-foreground">Sessions</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-heading font-semibold text-primary">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      className="text-2xl font-heading font-semibold text-primary"
+                    >
                       {treatment.stats.success}
-                    </div>
+                    </motion.div>
                     <div className="text-xs text-muted-foreground">Success Rate</div>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" className="group">
-                  Learn More
-                  <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link to="/consultations">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button variant="outline" size="sm" className="group">
+                      Learn More
+                      <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </motion.div>
+                </Link>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Building2, Mic2, Calendar, MapPin, Users, Mail, Phone, User, Building, MessageSquare, ArrowRight, CheckCircle } from 'lucide-react';
+import { Building2, Mic2, Calendar, MapPin, Users, Mail, Phone, User, Building, MessageSquare, ArrowRight, CheckCircle, Download } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
 import seminarImage from '@/assets/seminar-workshop.jpg';
 
 const corporateOfferings = [
@@ -48,14 +50,39 @@ const festivalTopics = [
 
 const Seminars = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
+    toast({
+      title: "Inquiry Submitted!",
+      description: "We'll get back to you within 24-48 hours.",
+    });
+  };
+
+  const handleDownloadBrochure = () => {
+    toast({
+      title: "Brochure Download",
+      description: "Your brochure will be ready shortly. Check your email for the download link.",
+    });
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <main className="pt-24">
         {/* Hero */}
@@ -67,25 +94,57 @@ const Seminars = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+                >
                   Seminars & Speaking
-                </span>
-                <h1 className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6">
+                </motion.span>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6"
+                >
                   Transform Your <span className="italic text-primary">Organization</span>
-                </h1>
-                <p className="text-xl text-muted-foreground mb-8">
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-xl text-muted-foreground mb-8"
+                >
                   Bring the power of yoga and mindfulness to your workplace or event.
                   Expert-led programs for corporate wellness and large-scale gatherings.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Button size="lg" className="group">
-                    Book a Seminar
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button variant="outline" size="lg">
-                    Download Brochure
-                  </Button>
-                </div>
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="flex flex-wrap gap-4"
+                >
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      size="lg"
+                      className="group"
+                      onClick={() => {
+                        const form = document.getElementById('booking-form');
+                        form?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      Book a Seminar
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button variant="outline" size="lg" onClick={handleDownloadBrochure}>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Brochure
+                    </Button>
+                  </motion.div>
+                </motion.div>
               </motion.div>
 
               <motion.div
@@ -94,12 +153,20 @@ const Seminars = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="relative"
               >
-                <img
-                  src={seminarImage}
-                  alt="Yoga seminar workshop"
-                  className="rounded-2xl shadow-elevated"
-                />
-                <div className="absolute -bottom-4 -left-4 bg-card p-4 rounded-xl shadow-card">
+                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
+                  <img
+                    src={seminarImage}
+                    alt="Yoga seminar workshop"
+                    className="rounded-2xl shadow-elevated"
+                  />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="absolute -bottom-4 -left-4 bg-card p-4 rounded-xl shadow-card"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                       <Users className="w-6 h-6 text-primary" />
@@ -109,7 +176,7 @@ const Seminars = () => {
                       <div className="text-sm text-muted-foreground">Workshop Attendees</div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -144,15 +211,23 @@ const Seminars = () => {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-                    {corporateOfferings.map((offering, index) => (
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto"
+                  >
+                    {corporateOfferings.map((offering) => (
                       <motion.div
                         key={offering.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 }}
-                        className="p-6 bg-card rounded-xl shadow-soft"
+                        variants={itemVariants}
+                        whileHover={{ y: -5, scale: 1.02 }}
+                        className="p-6 bg-card rounded-xl shadow-soft hover:shadow-card transition-all cursor-pointer"
+                        onClick={() => {
+                          const form = document.getElementById('booking-form');
+                          form?.scrollIntoView({ behavior: 'smooth' });
+                        }}
                       >
                         <h3 className="font-heading text-xl font-semibold text-foreground mb-2">
                           {offering.title}
@@ -170,7 +245,7 @@ const Seminars = () => {
                         </div>
                       </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </motion.div>
               </TabsContent>
 
@@ -188,21 +263,36 @@ const Seminars = () => {
                     </p>
                   </div>
 
-                  <div className="max-w-3xl mx-auto">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-3xl mx-auto"
+                  >
                     <div className="p-8 bg-card rounded-2xl shadow-soft">
                       <h3 className="font-heading text-xl font-semibold text-foreground mb-6">
                         Available Topics & Workshops
                       </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                      >
                         {festivalTopics.map((topic, index) => (
-                          <div key={index} className="flex items-center gap-3">
+                          <motion.div
+                            key={index}
+                            variants={itemVariants}
+                            whileHover={{ x: 5 }}
+                            className="flex items-center gap-3"
+                          >
                             <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
                             <span className="text-foreground">{topic}</span>
-                          </div>
+                          </motion.div>
                         ))}
-                      </div>
+                      </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               </TabsContent>
             </Tabs>
@@ -210,7 +300,7 @@ const Seminars = () => {
         </section>
 
         {/* Booking Form */}
-        <section className="py-20 bg-muted/30">
+        <section id="booking-form" className="py-20 bg-muted/30 scroll-mt-20">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -234,18 +324,32 @@ const Seminars = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center p-12 bg-card rounded-2xl shadow-soft"
                 >
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6"
+                  >
                     <CheckCircle className="w-8 h-8 text-primary" />
-                  </div>
+                  </motion.div>
                   <h3 className="font-heading text-2xl font-semibold text-foreground mb-2">
                     Thank You!
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground mb-6">
                     We've received your inquiry and will be in touch within 24-48 hours.
                   </p>
+                  <Button variant="outline" onClick={() => setFormSubmitted(false)}>
+                    Submit Another Inquiry
+                  </Button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="p-8 bg-card rounded-2xl shadow-soft space-y-6">
+                <motion.form
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  onSubmit={handleSubmit}
+                  className="p-8 bg-card rounded-2xl shadow-soft space-y-6"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="flex items-center gap-2">
@@ -309,17 +413,20 @@ const Seminars = () => {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full group">
-                    Submit Inquiry
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </form>
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button type="submit" size="lg" className="w-full group">
+                      Submit Inquiry
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </motion.div>
+                </motion.form>
               )}
             </motion.div>
           </div>
         </section>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };

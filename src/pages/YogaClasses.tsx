@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
-import { Clock, Users, Star, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Clock, Users, Star, ChevronRight, ArrowRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollToTop from '@/components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -64,8 +66,21 @@ const firstTimerSteps = [
 ];
 
 const YogaClasses = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <main className="pt-24">
         {/* Hero */}
@@ -77,16 +92,31 @@ const YogaClasses = () => {
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4"
+              >
                 Yoga Classes
-              </span>
-              <h1 className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6">
+              </motion.span>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6"
+              >
                 Find Your Perfect <span className="italic text-primary">Practice</span>
-              </h1>
-              <p className="text-xl text-muted-foreground">
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl text-muted-foreground"
+              >
                 From gentle beginners to advanced practitioners, discover classes tailored
                 to your experience level and wellness goals.
-              </p>
+              </motion.p>
             </motion.div>
           </div>
         </section>
@@ -108,15 +138,19 @@ const YogaClasses = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {Object.entries(yogaStyles).map(([key, style], index) => (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              {Object.entries(yogaStyles).map(([key, style]) => (
                 <motion.div
                   key={key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-8 bg-card rounded-2xl shadow-soft"
+                  variants={itemVariants}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all"
                 >
                   <h3 className="font-heading text-2xl font-semibold text-foreground mb-3">
                     {style.name}
@@ -134,7 +168,7 @@ const YogaClasses = () => {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -171,9 +205,13 @@ const YogaClasses = () => {
                     </p>
                     <div className="space-y-4">
                       {levelData.classes.map((cls, index) => (
-                        <div
+                        <motion.div
                           key={index}
-                          className="flex items-center justify-between p-6 bg-card rounded-xl shadow-soft"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ x: 8 }}
+                          className="flex items-center justify-between p-6 bg-card rounded-xl shadow-soft hover:shadow-card transition-all"
                         >
                           <div>
                             <h4 className="font-heading text-lg font-semibold text-foreground">
@@ -188,9 +226,13 @@ const YogaClasses = () => {
                               <Users size={14} />
                               {cls.spots} spots
                             </span>
-                            <Button size="sm">Book Now</Button>
+                            <Link to="/consultations">
+                              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                <Button size="sm">Book Now</Button>
+                              </motion.div>
+                            </Link>
                           </div>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </motion.div>
@@ -209,9 +251,14 @@ const YogaClasses = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-4">
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-4"
+              >
                 New to Yoga?
-              </span>
+              </motion.span>
               <h2 className="font-heading text-4xl font-semibold text-foreground mb-4">
                 First Timer's Guide
               </h2>
@@ -220,19 +267,26 @@ const YogaClasses = () => {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
+            >
               {firstTimerSteps.map((item, index) => (
                 <motion.div
                   key={item.step}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="relative p-6 bg-card rounded-xl shadow-soft"
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  className="relative p-6 bg-card rounded-xl shadow-soft hover:shadow-card transition-all"
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-heading font-semibold mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-heading font-semibold mb-4"
+                  >
                     {item.step}
-                  </div>
+                  </motion.div>
                   <h4 className="font-heading text-lg font-semibold text-foreground mb-2">
                     {item.title}
                   </h4>
@@ -242,11 +296,28 @@ const YogaClasses = () => {
                   )}
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+            >
+              <Link to="/consultations">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button size="lg" className="group">
+                    Book Your First Class
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </motion.div>
+              </Link>
+            </motion.div>
           </div>
         </section>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
