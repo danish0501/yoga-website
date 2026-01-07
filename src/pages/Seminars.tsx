@@ -7,7 +7,17 @@ import ScrollToTop from '@/components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import seminarImage from '@/assets/seminar-workshop.jpg';
@@ -48,18 +58,41 @@ const festivalTopics = [
   'The Business of Wellness',
 ];
 
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  organization: z.string().optional(),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal("")),
+  phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }),
+  attendees: z.string().optional(),
+  location: z.string().min(2, { message: "Location is required." }),
+  message: z.string().optional(),
+});
+
 const Seminars = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      organization: "",
+      email: "",
+      phone: "",
+      attendees: "",
+      location: "",
+      message: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
     setFormSubmitted(true);
     toast({
       title: "Inquiry Submitted!",
       description: "We'll get back to you within 24-48 hours.",
     });
-  };
+  }
 
   const handleDownloadBrochure = () => {
     toast({
@@ -343,83 +376,148 @@ const Seminars = () => {
                   </Button>
                 </motion.div>
               ) : (
-                <motion.form
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  onSubmit={handleSubmit}
-                  className="p-8 bg-card rounded-2xl shadow-soft space-y-6"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="flex items-center gap-2">
-                        <User size={14} />
-                        Your Name
-                      </Label>
-                      <Input id="name" placeholder="John Smith" required />
+                <Form {...form}>
+                  <motion.form
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="p-8 bg-card rounded-2xl shadow-soft space-y-6"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <User size={14} />
+                              Your Name *
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="John Smith" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="organization"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Building size={14} />
+                              Organization
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="Acme Corp" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="company" className="flex items-center gap-2">
-                        <Building size={14} />
-                        Organization
-                      </Label>
-                      <Input id="company" placeholder="Acme Corp" required />
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="flex items-center gap-2">
-                        <Mail size={14} />
-                        Email
-                      </Label>
-                      <Input id="email" type="email" placeholder="john@acme.com" required />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Mail size={14} />
+                              Email
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="john@acme.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Phone size={14} />
+                              Phone *
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="(555) 123-4567" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="flex items-center gap-2">
-                        <Phone size={14} />
-                        Phone
-                      </Label>
-                      <Input id="phone" type="tel" placeholder="(555) 123-4567" />
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="attendees" className="flex items-center gap-2">
-                        <Users size={14} />
-                        Expected Attendees
-                      </Label>
-                      <Input id="attendees" type="number" placeholder="50" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="attendees"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Users size={14} />
+                              Expected Attendees
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="50" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <MapPin size={14} />
+                              Location *
+                            </FormLabel>
+                            <FormControl>
+                              <Input placeholder="City, State" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="location" className="flex items-center gap-2">
-                        <MapPin size={14} />
-                        Location
-                      </Label>
-                      <Input id="location" placeholder="City, State" />
-                    </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="flex items-center gap-2">
-                      <MessageSquare size={14} />
-                      Tell Us About Your Needs
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Describe your event, goals, and any specific requirements..."
-                      rows={4}
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <MessageSquare size={14} />
+                            Tell Us About Your Needs
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Describe your event, goals, and any specific requirements..."
+                              rows={4}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
 
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button type="submit" size="lg" className="w-full group">
-                      Submit Inquiry
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </motion.div>
-                </motion.form>
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button type="submit" size="lg" className="w-full group">
+                        Submit Inquiry
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </motion.div>
+                  </motion.form>
+                </Form>
               )}
             </motion.div>
           </div>

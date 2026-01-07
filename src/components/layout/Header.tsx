@@ -83,7 +83,7 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Link to="/consultations">
+            <Link to="/book-session">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button variant="default" size="sm">
                   Book a Session
