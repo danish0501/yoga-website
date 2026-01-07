@@ -84,7 +84,7 @@ const Consultations = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6"
+                className="font-heading text-3xl md:text-5xl lg:text-6xl font-semibold text-foreground mb-6"
               >
                 Your Personal <span className="italic text-primary">Journey</span>
               </motion.h1>

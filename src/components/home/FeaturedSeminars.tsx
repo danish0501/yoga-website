@@ -54,7 +54,7 @@ const FeaturedSeminars = () => {
   };
 
   return (
-    <section className="py-24 bg-secondary/5">
+    <section className="py-24 max-[426px]:py-12 bg-secondary/5">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Content */}
@@ -77,7 +77,7 @@ const FeaturedSeminars = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-heading text-4xl md:text-5xl font-semibold text-foreground mb-6"
+              className="font-heading text-5xl max-[426px]:text-4xl max-[376px]:text-3xl max-[321px]:text-2xl font-semibold text-foreground mb-6 max-[376px]:mb-4"
             >
               Seminars &{' '}
               <span className="italic text-primary">Workshops</span>
@@ -87,7 +87,7 @@ const FeaturedSeminars = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-muted-foreground text-lg mb-8"
+              className="text-muted-foreground text-lg max-[376px]:text-base max-[321px]:text-sm mb-8"
             >
               Join us for transformative group experiences, corporate wellness
               programs, and large-scale yoga festivals led by our expert
@@ -117,7 +117,7 @@ const FeaturedSeminars = () => {
                         >
                           {seminar.type}
                         </motion.span>
-                        <h4 className="font-heading text-lg font-semibold text-foreground">
+                        <h4 className="font-heading text-lg max-[321px]:text-base font-semibold text-foreground">
                           {seminar.title}
                         </h4>
                         <div className="flex flex-wrap gap-4 mt-2 text-sm text-muted-foreground">

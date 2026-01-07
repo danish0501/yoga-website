@@ -30,7 +30,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-24 max-[426px]:py-10 bg-muted/30">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ const Testimonials = () => {
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             Testimonials
           </span>
-          <h2 className="font-heading text-4xl md:text-5xl font-semibold text-foreground mb-4">
+          <h2 className="font-heading text-5xl max-[426px]:text-3xl max-[376px]:text-2xl font-semibold text-foreground mb-4">
             Stories of <span className="italic text-primary">Transformation</span>
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -59,7 +59,7 @@ const Testimonials = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
               whileHover={{ y: -5 }}
-              className="relative p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all duration-300"
+              className="relative p-8 max-[376px]:p-6 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all duration-300"
             >
               {/* Quote icon */}
               <div className="absolute -top-4 -left-2 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">

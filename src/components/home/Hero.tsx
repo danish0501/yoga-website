@@ -73,7 +73,7 @@ const Hero = () => {
 
           <motion.h1
             variants={itemVariants}
-            className="font-heading text-5xl md:text-6xl lg:text-7xl font-semibold text-foreground leading-tight mb-6"
+            className="font-heading text-4xl md:text-6xl lg:text-7xl font-semibold text-foreground leading-tight mb-6"
           >
             Balance for{' '}
             <span className="italic text-primary">Body & Mind</span>
@@ -116,7 +116,7 @@ const Hero = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="mt-16 flex gap-12"
+            className="mt-16 max-[426px]:mt-10 flex flex-row gap-8 max-[321px]:gap-4"
           >
             {[
               { number: '15+', label: 'Years Experience' },

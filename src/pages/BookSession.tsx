@@ -71,7 +71,7 @@ const BookSession = () => {
     }
 
     return (
-        <div className="min-h-screen overflow-x-hidden">
+        <div className="min-h-screen overflow-x-hidden pb-24">
             <Header />
             <main className="pt-24">
                 {/* Hero Section */}

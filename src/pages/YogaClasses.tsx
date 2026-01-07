@@ -140,9 +140,9 @@ const YogaClasses = () => {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Header />
-      <main className="pt-24">
+      <main className="pt-24 max-[769px]:pt-16">
         {/* Hero */}
-        <section className="py-16 hero-gradient">
+        <section className="py-16 max-[769px]:py-12 hero-gradient">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -162,7 +162,7 @@ const YogaClasses = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="font-heading text-5xl md:text-6xl font-semibold text-foreground mb-6"
+                className="font-heading text-6xl max-[426px]:text-5xl max-[376px]:text-4xl font-semibold text-foreground mb-6"
               >
                 Find Your Perfect <span className="italic text-primary">Practice</span>
               </motion.h1>
@@ -170,7 +170,7 @@ const YogaClasses = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-xl text-muted-foreground"
+                className="text-xl max-[426px]:text-lg text-muted-foreground"
               >
                 From gentle beginners to advanced practitioners, discover classes tailored
                 to your experience level and wellness goals.
@@ -180,7 +180,7 @@ const YogaClasses = () => {
         </section>
 
         {/* Yoga Styles */}
-        <section className="py-20">
+        <section className="py-20 max-[426px]:py-10">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -188,10 +188,10 @@ const YogaClasses = () => {
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="font-heading text-4xl font-semibold text-foreground mb-4">
+              <h2 className="font-heading text-4xl max-[321px]:text-3xl font-semibold text-foreground mb-4">
                 Yoga Styles We Offer
               </h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              <p className="text-muted-foreground text-lg max-[321px]:base max-w-2xl mx-auto">
                 Each style offers unique benefits. Explore and find what resonates with you.
               </p>
             </motion.div>
@@ -208,7 +208,7 @@ const YogaClasses = () => {
                   key={key}
                   variants={itemVariants}
                   whileHover={{ y: -8, scale: 1.02 }}
-                  className="p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all"
+                  className="p-8 max-[376px]:p-4 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all"
                 >
                   <h3 className="font-heading text-2xl font-semibold text-foreground mb-3">
                     {style.name}
@@ -231,7 +231,7 @@ const YogaClasses = () => {
         </section>
 
         {/* Class Levels */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20 max-[426px]:py-10 bg-muted/30">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -269,7 +269,7 @@ const YogaClasses = () => {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
                           whileHover={{ x: 8 }}
-                          className="flex items-center justify-between p-6 bg-card rounded-xl shadow-soft hover:shadow-card transition-all"
+                          className="flex flex-col min-[427px]:flex-row min-[427px]:items-center justify-between p-6 bg-card rounded-xl shadow-soft hover:shadow-card transition-all gap-4 min-[427px]:gap-0"
                         >
                           <div>
                             <h4 className="font-heading text-lg font-semibold text-foreground">
@@ -279,13 +279,19 @@ const YogaClasses = () => {
                               {cls.time} • {cls.instructor}
                             </p>
                           </div>
-                          <div className="flex items-center gap-4">
+                          <div className="flex items-center justify-between min-[427px]:justify-end gap-4 w-full min-[427px]:w-auto border-t min-[427px]:border-none pt-4 min-[427px]:pt-0">
                             <span className="flex items-center gap-1 text-sm text-primary">
                               <Users size={14} />
                               {cls.spots} spots
                             </span>
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                              <Button size="sm" onClick={() => handleBookClick(cls.name)}>Book Now</Button>
+                              <Button
+                                size="sm"
+                                className="max-[426px]:w-full"
+                                onClick={() => handleBookClick(cls.name)}
+                              >
+                                Book Now
+                              </Button>
                             </motion.div>
                           </div>
                         </motion.div>
@@ -299,7 +305,7 @@ const YogaClasses = () => {
         </section>
 
         {/* First Timer Guide */}
-        <section className="py-20">
+        <section className="py-20 max-[426px]:py-10">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -315,7 +321,7 @@ const YogaClasses = () => {
               >
                 New to Yoga?
               </motion.span>
-              <h2 className="font-heading text-4xl font-semibold text-foreground mb-4">
+              <h2 className="font-heading text-4xl max-[321px]:text-3xl font-semibold text-foreground mb-4">
                 First Timer's Guide
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -376,12 +382,12 @@ const YogaClasses = () => {
       <ScrollToTop />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <DialogContent className="w-full max-[426px]:w-[90vw] max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] rounded-lg">
           <DialogHeader>
-            <DialogTitle>Book {selectedClass}</DialogTitle>
+            <DialogTitle className='text-2xl max-[321px]:text-xl'>Book {selectedClass}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4 max-[426px]:pt-2">
               <FormField
                 control={form.control}
                 name="name"

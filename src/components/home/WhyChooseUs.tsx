@@ -72,12 +72,12 @@ const WhyChooseUs = () => {
               <img
                 src={yogaMeditationImage}
                 alt="Yoga meditation practice"
-                className="w-full h-auto object-cover"
+                className="w-full h-auto max-[426px]:h-[450px] max-[376px]:h-[400px] max-[321px]:h-[350px] object-cover"
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/10 to-transparent" />
             </motion.div>
-            
+
             {/* Decorative elements */}
             <motion.div
               animate={{
@@ -139,7 +139,7 @@ const WhyChooseUs = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-heading text-4xl md:text-5xl font-semibold text-foreground mb-6"
+              className="font-heading text-5xl max-[426px]:text-3xl max-[376px]:text-2xl font-semibold text-foreground mb-6 max-[426px]:mb-4"
             >
               A Holistic Path to{' '}
               <span className="italic text-primary">Healing</span>
@@ -149,7 +149,7 @@ const WhyChooseUs = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-muted-foreground text-lg mb-10"
+              className="text-muted-foreground text-lg max-[426px]:text-base mb-10"
             >
               We blend ancient yogic wisdom with modern science to create
               transformative experiences that address your complete well-being—body,

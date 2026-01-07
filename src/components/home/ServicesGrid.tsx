@@ -80,10 +80,10 @@ const ServicesGrid = () => {
           >
             Our Services
           </motion.span>
-          <h2 className="font-heading text-4xl md:text-5xl font-semibold text-foreground mb-4">
+          <h2 className="font-heading text-5xl max-[426px]:text-3xl font-semibold text-foreground mb-4">
             Holistic Wellness Solutions
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-lg max-[426px]:text-base">
             Comprehensive programs designed to nurture your physical, mental,
             and spiritual well-being.
           </p>
@@ -106,7 +106,7 @@ const ServicesGrid = () => {
             >
               <Link
                 to={service.link}
-                className="group block p-8 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all duration-300 h-full"
+                className="group block p-8 max-[376px]:p-4 bg-card rounded-2xl shadow-soft hover:shadow-card transition-all duration-300 h-full"
               >
                 <div className="flex items-start justify-between mb-6">
                   <motion.div

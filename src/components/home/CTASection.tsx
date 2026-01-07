@@ -5,14 +5,14 @@ import { Button } from '@/components/ui/button';
 
 const CTASection = () => {
   return (
-    <section className="py-24">
+    <section className="py-24 max-[426px]:py-12">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl bg-secondary p-12 md:p-16 lg:p-20"
+          className="relative overflow-hidden rounded-3xl bg-secondary p-12 max-[426px]:p-6"
         >
           {/* Background decorations */}
           <motion.div
@@ -47,7 +47,7 @@ const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="font-heading text-4xl md:text-5xl lg:text-6xl font-semibold text-secondary-foreground mb-6"
+              className="font-heading text-5xl max-[769px]:text-4xl max-[426px]:text-3xl max-[321px]:text-2xl font-semibold text-secondary-foreground mb-6"
             >
               Begin Your Wellness Journey{' '}
               <span className="italic text-primary">Today</span>
@@ -57,7 +57,7 @@ const CTASection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-secondary-foreground/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto"
+              className="text-secondary-foreground/80 text-lg max-[426px]:text-base max-[321px]:text-sm mb-10 max-w-2xl mx-auto"
             >
               Take the first step towards a balanced, healthier you. Schedule a
               free consultation and discover how our holistic approach can
