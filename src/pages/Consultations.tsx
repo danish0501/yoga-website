@@ -209,18 +209,17 @@ const Consultations = () => {
                 Schedule your complimentary initial consultation and take the first step
                 towards a healthier, more balanced you.
               </p>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  size="lg"
-                  className="group"
-                  onClick={() => {
-                    window.location.href = 'mailto:hello@serenity.com?subject=Free Consultation Request';
-                  }}
-                >
-                  Book Your Free Consultation
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </motion.div>
+              <Link to="/book-session">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    size="lg"
+                    className="group"
+                  >
+                    Book Your Free Consultation
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </motion.div>
+              </Link>
             </motion.div>
           </div>
         </section>

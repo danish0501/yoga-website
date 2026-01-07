@@ -71,7 +71,7 @@ const CTASection = () => {
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link to="/consultations">
+              <Link to="/book-session">
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button size="lg" className="group w-full sm:w-auto">
                     Book Free Consultation
@@ -83,7 +83,7 @@ const CTASection = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-secondary-foreground/30 text-secondary-foreground hover:bg-secondary-foreground/10"
+                  className="text-black hover:bg-secondary-foreground/10"
                   onClick={() => window.location.href = 'tel:+15551234567'}
                 >
                   <Phone className="mr-2 h-4 w-4" />

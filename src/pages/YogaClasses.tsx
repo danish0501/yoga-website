@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, Users, Star, ChevronRight, ArrowRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
@@ -6,6 +7,27 @@ import Footer from '@/components/layout/Footer';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useToast } from "@/hooks/use-toast";
+import { User, Mail, Phone, MessageSquare } from 'lucide-react';
 
 const yogaStyles = {
   hatha: {
@@ -65,7 +87,43 @@ const firstTimerSteps = [
   { step: 4, title: 'Listen to Your Body', description: 'Rest when needed. Every body is different, and modifications are always available.' },
 ];
 
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal("")),
+  mobile: z.string().min(10, { message: "Mobile number must be at least 10 digits." }),
+  message: z.string().optional(),
+});
+
 const YogaClasses = () => {
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toast } = useToast();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      mobile: "",
+      message: "",
+    },
+  });
+
+  const handleBookClick = (className: string) => {
+    setSelectedClass(className);
+    setIsModalOpen(true);
+  };
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log({ ...values, class: selectedClass });
+    setIsModalOpen(false);
+    toast({
+      title: "Booking Request Sent",
+      description: `We've received your request for ${selectedClass}. We'll contact you shortly!`,
+    });
+    form.reset();
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -226,11 +284,9 @@ const YogaClasses = () => {
                               <Users size={14} />
                               {cls.spots} spots
                             </span>
-                            <Link to="/consultations">
-                              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <Button size="sm">Book Now</Button>
-                              </motion.div>
-                            </Link>
+                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                              <Button size="sm" onClick={() => handleBookClick(cls.name)}>Book Now</Button>
+                            </motion.div>
                           </div>
                         </motion.div>
                       ))}
@@ -318,6 +374,83 @@ const YogaClasses = () => {
       </main>
       <Footer />
       <ScrollToTop />
+
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+          <DialogHeader>
+            <DialogTitle>Book {selectedClass}</DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name *</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="John Doe" className="pl-9" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="john@example.com" className="pl-9" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="mobile"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mobile Number *</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="1234567890" className="pl-9" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Message</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Textarea placeholder="Any questions?" className="pl-9 min-h-[80px]" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">Submit Request</Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
